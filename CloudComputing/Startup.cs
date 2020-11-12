@@ -1,3 +1,6 @@
+using CloudComputing.Data.Entity;
+using CloudComputing.Services;
+using CloudComputing.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace CloudComputing
 {
@@ -20,6 +24,14 @@ namespace CloudComputing
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			// requires using Microsoft.Extensions.Options
+			services.Configure<ShopTrafficDatabaseSettings>(
+				Configuration.GetSection(nameof(ShopTrafficDatabaseSettings)));
+
+			services.AddSingleton<IShopTrafficDatabaseSettings>(sp =>
+				sp.GetRequiredService<IOptions<ShopTrafficDatabaseSettings>>().Value);
+
+			services.AddSingleton<ITemperatureService, TemperatureService>();
 
 			services.AddControllersWithViews();
 
@@ -28,6 +40,7 @@ namespace CloudComputing
 			{
 				configuration.RootPath = "ClientApp/build";
 			});
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

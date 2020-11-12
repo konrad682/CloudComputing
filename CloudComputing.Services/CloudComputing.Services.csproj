@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CloudComputing.Data\CloudComputing.Data.csproj" />
+    <ProjectReference Include="..\CloudComputing.Services.Interfaces\CloudComputing.Services.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

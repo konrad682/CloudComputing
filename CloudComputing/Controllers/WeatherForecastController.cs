@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CloudComputing.Data.Entity;
+using CloudComputing.Data.Models;
 using CloudComputing.Services;
 using CloudComputing.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,12 @@ namespace CloudComputing.Web.Controllers
 			_temperatureService = temperatureService;
 		}
 
-		[HttpGet("all")]
-		public ActionResult<List<TemperatureModel>> GetAll() =>
-			_temperatureService.Get();
+		[HttpPost("all")]
+		public ActionResult<List<ShopTrafficModel>> GetShopTrafficResult([FromBody] PeriodOfTimeModel periodOfTime)
+		{
+			var xd = periodOfTime.Option;
+			return _temperatureService.GetAll();
+		}
 
 		[HttpGet]
 		public IEnumerable<WeatherForecast> Get()

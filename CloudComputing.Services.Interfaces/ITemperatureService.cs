@@ -7,6 +7,6 @@ namespace CloudComputing.Services.Interfaces
 {
 	public interface ITemperatureService
 	{
-		public List<TemperatureModel> Get();
+		public List<ShopTrafficModel> GetAll();
 	}
 }

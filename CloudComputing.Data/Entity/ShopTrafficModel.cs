@@ -11,11 +11,12 @@ namespace CloudComputing.Data.Entity
 		[BsonId]
 		[BsonRepresentation(BsonType.ObjectId)]
 		public string Id { get; set; }
-		public string shopId { get; set; }
-		[BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+		public int shop_id { get; set; }
+		public int sensor_id { get; set; }
+		[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
 		public DateTime date { get; set; }
-		public int peopleIn { get; set; }
-		public int peopleOut { get; set; }
-		public int peopleActual { get; set; }
+		public int people_entered { get; set; }
+		public int people_left { get; set; }
+		public int current_people_quantity { get; set; }
 	}
 }

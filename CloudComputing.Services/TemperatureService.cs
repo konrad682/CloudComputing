@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using CloudComputing.Data;
 using CloudComputing.Data.Entity;
+using CloudComputing.Data.Models;
 using CloudComputing.Services.Interfaces;
 using MongoDB.Driver;
 
@@ -52,22 +53,37 @@ namespace CloudComputing.Services
 			return shopTrafficList;
 		}
 
-		public ShopTrafficModel Get(string id) =>
-			_shopTraffic.Find<ShopTrafficModel>(book => book.Id == id).FirstOrDefault();
-
-		public ShopTrafficModel Create(ShopTrafficModel book)
+		public List<ResponseChartModel> GetShopTrafficChartResult(PeriodOfTimeChartModel periodOfTimeChartModel)
 		{
-			_shopTraffic.InsertOne(book);
-			return book;
+			DateTime tempDate = periodOfTimeChartModel.startDate;
+			List<ResponseChartModel> responseChart = new List<ResponseChartModel>();
+			while (tempDate <= periodOfTimeChartModel.endDate)
+			{
+				responseChart.Add(GetValuesInPeriodOfTime(tempDate));
+				tempDate = tempDate.AddHours(1);
+			}
+			return responseChart;
 		}
 
-		public void Update(string id, ShopTrafficModel bookIn) =>
-			_shopTraffic.ReplaceOne(book => book.Id == id, bookIn);
+		private ResponseChartModel GetValuesInPeriodOfTime(DateTime tempDate)
+		{
+			var shopTrafficList = _shopTraffic.Find(k => k.date > tempDate && k.date <= tempDate.AddHours(1)).ToList();
 
-		public void Remove(TemperatureModel bookIn) =>
-			_shopTraffic.DeleteOne(book => book.Id == bookIn.Id);
+			int avg = 0;
 
-		public void Remove(string id) =>
-			_shopTraffic.DeleteOne(book => book.Id == id);
+			foreach (var shopTraffic in shopTrafficList)
+			{
+				avg += shopTraffic.peopleActual;
+			}
+
+			if(avg != 0)
+				avg = avg / shopTrafficList.Count;
+
+			return new ResponseChartModel
+			{
+				AvgPeople = avg,
+				Name = $"{tempDate.ToString()} - {tempDate.AddHours(1).ToString()}"
+			};
+		}
 	}
 }

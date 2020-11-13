@@ -34,6 +34,14 @@ namespace CloudComputing.Web.Controllers
 			return _temperatureService.GetShopTrafficResult(periodOfTime.Option);
 		}
 
+		[HttpPost("chart")]
+		public ActionResult<List<ResponseChartModel>> GetShopTrafficChartResult([FromBody] PeriodOfTimeChartModel periodOfTimeChart)
+		{
+		
+			var result = _temperatureService.GetShopTrafficChartResult(periodOfTimeChart);
+			return result;
+		}
+
 		[HttpGet]
 		public IEnumerable<WeatherForecast> Get()
 		{

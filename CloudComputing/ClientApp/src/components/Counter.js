@@ -38,7 +38,7 @@ export class Counter extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ startDate: this.state.startDate, endDate: this.state.endDate, optionShop: this.state.optionRadio })
         };
-        const response = await fetch('weatherforecast/chart', requestOptions);
+        const response = await fetch('shoptraffic/chart', requestOptions);
         const data = await response.json();
         this.setState({ ["shopTraffics"]: data });
     }

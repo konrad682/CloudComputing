@@ -8,11 +8,11 @@ using MongoDB.Driver;
 
 namespace CloudComputing.Services
 {
-	public class TemperatureService : ITemperatureService
+	public class ShopTrafficService : IShopTrafficService
 	{
 		private readonly IMongoCollection<ShopTrafficModel> _shopTraffic;
 
-		public TemperatureService(IShopTrafficDatabaseSettings settings)
+		public ShopTrafficService(IShopTrafficDatabaseSettings settings)
 		{
 			var client = new MongoClient(settings.ConnectionString);
 			var database = client.GetDatabase(settings.DatabaseName);
@@ -35,19 +35,19 @@ namespace CloudComputing.Services
 			DateTime startDate;
 			switch (periodOfTimeOption)
 			{
-				case (int)PeriodOfTime.LastMinute:
+				case (int) PeriodOfTime.LastMinute:
 					startDate = DateTime.Now.AddHours(1).AddMinutes(-1);
 					break;
-				case (int)PeriodOfTime.LastHours:
+				case (int) PeriodOfTime.LastHours:
 					startDate = DateTime.Now;
 					break;
-				case (int)PeriodOfTime.LastFourHours:
+				case (int) PeriodOfTime.LastFourHours:
 					startDate = DateTime.Now.AddHours(-3);
 					break;
-				case (int)PeriodOfTime.LastDay:
+				case (int) PeriodOfTime.LastDay:
 					startDate = DateTime.Now.AddDays(-1);
 					break;
-				case (int)PeriodOfTime.LastWeek:
+				case (int) PeriodOfTime.LastWeek:
 					startDate = DateTime.Now.AddDays(-7);
 					break;
 				default:
@@ -55,7 +55,7 @@ namespace CloudComputing.Services
 					break;
 			}
 
-			var shopTrafficList =_shopTraffic.Find(k => k.date > startDate && k.shop_id == kindOfShop).ToList();
+			var shopTrafficList = _shopTraffic.Find(k => k.date > startDate && k.shop_id == kindOfShop).ToList();
 
 			return shopTrafficList;
 		}
@@ -79,7 +79,14 @@ namespace CloudComputing.Services
 				responseChart.Add(GetValuesInPeriodOfTime(tempDate, kindOfShop));
 				tempDate = tempDate.AddHours(1);
 			}
+
 			return responseChart;
+		}
+
+		public List<ShopTrafficModel> GetShopTrafficLatestCharts()
+		{
+			DateTime startDate = DateTime.Now.AddHours(1).AddMinutes(-1);
+			return _shopTraffic.Find(k => k.date > startDate).ToList();
 		}
 
 		private ResponseChartModel GetValuesInPeriodOfTime(DateTime tempDate, int kindOfShop)

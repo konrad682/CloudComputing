@@ -12,17 +12,17 @@ namespace CloudComputing.Web.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class WeatherForecastController : ControllerBase
+	public class ShopTrafficController : ControllerBase
 	{
 		private static readonly string[] Summaries = new[]
 		{
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
-		private readonly ITemperatureService _temperatureService;
+		private readonly IShopTrafficService _temperatureService;
 
-		private readonly ILogger<WeatherForecastController> _logger;
+		private readonly ILogger<ShopTrafficController> _logger;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger, ITemperatureService temperatureService)
+		public ShopTrafficController(ILogger<ShopTrafficController> logger, IShopTrafficService temperatureService)
 		{
 			_logger = logger;
 			_temperatureService = temperatureService;
@@ -42,17 +42,12 @@ namespace CloudComputing.Web.Controllers
 			return result;
 		}
 
-		[HttpGet]
-		public IEnumerable<WeatherForecast> Get()
+		[HttpPost("getLastRecords")]
+		public ActionResult<List<ShopTrafficModel>> GetShopTrafficLatestChart()
 		{
-			var rng = new Random();
-			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-			{
-				Date = DateTime.Now.AddDays(index),
-				TemperatureC = rng.Next(-20, 55),
-				Summary = Summaries[rng.Next(Summaries.Length)]
-			})
-			.ToArray();
+
+			var result = _temperatureService.GetShopTrafficLatestCharts();
+			return result;
 		}
 	}
 }

@@ -91,7 +91,7 @@ export class FetchData extends Component {
         headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ option: optionValue, optionShop: this.state.optionRadio})
     };
-    const response = await fetch('weatherforecast/all', requestOptions);
+        const response = await fetch('shoptraffic/all', requestOptions);
         const data = await response.json();
         console.log(data);
       this.setState({ shopTraffics: data, loading: false });

@@ -6,9 +6,10 @@ using CloudComputing.Data.Models;
 
 namespace CloudComputing.Services.Interfaces
 {
-	public interface ITemperatureService
+	public interface IShopTrafficService
 	{
 		public List<ShopTrafficModel> GetShopTrafficResult(int periodOfTimeOption, string optionShopValue);
 		public List<ResponseChartModel> GetShopTrafficChartResult(PeriodOfTimeChartModel periodOfTimeChartModel);
+		public List<ShopTrafficModel> GetShopTrafficLatestCharts();
 	}
 }

@@ -31,7 +31,7 @@ namespace CloudComputing
 			services.AddSingleton<IShopTrafficDatabaseSettings>(sp =>
 				sp.GetRequiredService<IOptions<ShopTrafficDatabaseSettings>>().Value);
 
-			services.AddSingleton<ITemperatureService, TemperatureService>();
+			services.AddSingleton<IShopTrafficService, ShopTrafficService>();
 
 			services.AddControllersWithViews();
 

@@ -16,15 +16,16 @@ export class Home extends Component {
     return (
       <div>
         <h1>Hello, world!</h1>
-        <p>Strona aktualnym natężeniem ruchu w sklepie</p>
+            <p>Strona aktualnym natężeniem ruchu w sklepie</p>
+            <p>Sklep pierwszy aktualna liczba osób:</p>
       </div>
     );
     }
 
 
-async populateWeatherData() {
-    const response = await fetch('weatherforecast/getLastRecords');
-    const data = await response.json();
-    this.setState({ shopTraffics: data });
+    async populateData() {
+   // const response = await fetch('shoptraffic/getLastRecords');
+   // const data = await response.json();
+   // this.setState({ shopTraffics: data });
 }
 }

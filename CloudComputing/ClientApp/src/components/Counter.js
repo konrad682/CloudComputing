@@ -16,7 +16,8 @@ export class Counter extends Component {
     state = {
         startDate: '',
         endDate: '',
-        shopTraffics: []
+        shopTraffics: [],
+        optionRadio: "option1"
     };
  
   constructor(props) {
@@ -27,29 +28,39 @@ export class Counter extends Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        console.log(name);
-        console.log(value);
         this.setState({ [name]: value });
     }
 
     async handleSubmit() {
+        console.log(this.state.optionRadio)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ startDate: this.state.startDate, endDate: this.state.endDate })
+            body: JSON.stringify({ startDate: this.state.startDate, endDate: this.state.endDate, optionShop: this.state.optionRadio })
         };
         const response = await fetch('weatherforecast/chart', requestOptions);
         const data = await response.json();
-        console.log(data);
         this.setState({ ["shopTraffics"]: data });
-        console.log("xddd");
-        console.log(this.state.shopTraffics);
     }
 
   render() {
     return (
       <div>
-        <h1>Counter</h1> 
+            <h1>Counter</h1> 
+
+        <div className="form-check">
+        <input className="form-check-input" type="radio" name="optionRadio" id="exampleRadios1" onChange={this.handleChange} value="option1" checked={this.state.optionRadio === "option1"} />
+        <label className="form-check-label" for="exampleRadios1">
+        Shop 1
+        </label>
+        </div>
+        <div className="form-check">
+                <input className="form-check-input" type="radio" name="optionRadio" id="exampleRadios2" onChange={this.handleChange} value="option2" checked={this.state.optionRadio === "option2"} />
+        <label className="form-check-label" for="exampleRadios2">
+        Shop 2
+        </label>
+        </div>
+
         <div class="form-group row">
   <label for="example-datetime-local-input" class="col-2 col-form-label">Start date</label>
     <div class="col-10">

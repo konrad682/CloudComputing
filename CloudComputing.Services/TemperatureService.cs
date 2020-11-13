@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using CloudComputing.Data;
 using CloudComputing.Data.Entity;
 using CloudComputing.Data.Models;
@@ -20,11 +17,21 @@ namespace CloudComputing.Services
 			var client = new MongoClient(settings.ConnectionString);
 			var database = client.GetDatabase(settings.DatabaseName);
 
-			_shopTraffic = database.GetCollection<ShopTrafficModel>(settings.TemperatureCollectionName);
+			_shopTraffic = database.GetCollection<ShopTrafficModel>(settings.ShopTrafficCollectionName);
 		}
 
-		public List<ShopTrafficModel> GetShopTrafficResult(int periodOfTimeOption)
+		public List<ShopTrafficModel> GetShopTrafficResult(int periodOfTimeOption, string optionShopValue)
 		{
+			int kindOfShop = 0;
+			if (optionShopValue.Equals("option1"))
+			{
+				kindOfShop = 1;
+			}
+			else if (optionShopValue.Equals("option2"))
+			{
+				kindOfShop = 2;
+			}
+
 			DateTime startDate;
 			switch (periodOfTimeOption)
 			{
@@ -48,32 +55,42 @@ namespace CloudComputing.Services
 					break;
 			}
 
-			var shopTrafficList =_shopTraffic.Find(k => k.date > startDate).ToList();
+			var shopTrafficList =_shopTraffic.Find(k => k.date > startDate && k.shop_id == kindOfShop).ToList();
 
 			return shopTrafficList;
 		}
 
 		public List<ResponseChartModel> GetShopTrafficChartResult(PeriodOfTimeChartModel periodOfTimeChartModel)
 		{
+			int kindOfShop = 0;
+			if (periodOfTimeChartModel.OptionShop.Equals("option1"))
+			{
+				kindOfShop = 1;
+			}
+			else if (periodOfTimeChartModel.OptionShop.Equals("option2"))
+			{
+				kindOfShop = 2;
+			}
+
 			DateTime tempDate = periodOfTimeChartModel.startDate;
 			List<ResponseChartModel> responseChart = new List<ResponseChartModel>();
 			while (tempDate <= periodOfTimeChartModel.endDate)
 			{
-				responseChart.Add(GetValuesInPeriodOfTime(tempDate));
+				responseChart.Add(GetValuesInPeriodOfTime(tempDate, kindOfShop));
 				tempDate = tempDate.AddHours(1);
 			}
 			return responseChart;
 		}
 
-		private ResponseChartModel GetValuesInPeriodOfTime(DateTime tempDate)
+		private ResponseChartModel GetValuesInPeriodOfTime(DateTime tempDate, int kindOfShop)
 		{
-			var shopTrafficList = _shopTraffic.Find(k => k.date > tempDate && k.date <= tempDate.AddHours(1)).ToList();
+			var shopTrafficList = _shopTraffic.Find(k => k.date > tempDate && k.date <= tempDate.AddHours(1) && k.shop_id == kindOfShop).ToList();
 
 			int avg = 0;
 
 			foreach (var shopTraffic in shopTrafficList)
 			{
-				avg += shopTraffic.peopleActual;
+				avg += shopTraffic.current_people_quantity;
 			}
 
 			if(avg != 0)

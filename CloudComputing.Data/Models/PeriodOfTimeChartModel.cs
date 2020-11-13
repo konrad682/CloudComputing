@@ -8,5 +8,6 @@ namespace CloudComputing.Data.Models
 	{
 		public DateTime startDate { get; set; }
 		public DateTime endDate { get; set; }
+		public string OptionShop { get; set; }
 	}
 }

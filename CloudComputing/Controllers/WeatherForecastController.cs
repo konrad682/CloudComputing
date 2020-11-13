@@ -31,7 +31,7 @@ namespace CloudComputing.Web.Controllers
 		[HttpPost("all")]
 		public ActionResult<List<ShopTrafficModel>> GetShopTrafficResult([FromBody] PeriodOfTimeModel periodOfTime)
 		{
-			return _temperatureService.GetShopTrafficResult(periodOfTime.Option);
+			return _temperatureService.GetShopTrafficResult(periodOfTime.Option, periodOfTime.OptionShop);
 		}
 
 		[HttpPost("chart")]

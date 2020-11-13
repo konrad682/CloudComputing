@@ -3,11 +3,23 @@ import React, { Component } from 'react';
 export class FetchData extends Component {
   static displayName = FetchData.name;
 
+    state = {
+        shopTraffics: [],
+        optionRadio: "option1",
+      loading: true
+  };
+
   constructor(props) {
     super(props);
-      this.state = { shopTraffics: [], loading: true };
       this.populateWeatherData(1);
-  }
+      this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({
+          optionRadio: event.target.value
+        });
+    }
 
   static renderForecastsTable(shopTraffics) {
         return (
@@ -25,10 +37,10 @@ export class FetchData extends Component {
                 {shopTraffics.map(shopTraffic =>
               <tr key={shopTraffic.id}>
                   <td>{shopTraffic.date}</td>
-                  <td>{shopTraffic.shopId}</td>
-                  <td>{shopTraffic.peopleIn}</td>
-                  <td>{shopTraffic.peopleOut}</td>
-                  <td>{shopTraffic.peopleActual}</td>
+                        <td>{shopTraffic.shop_id}</td>
+                        <td>{shopTraffic.people_entered}</td>
+                        <td>{shopTraffic.people_left}</td>
+                        <td>{shopTraffic.current_people_quantity}</td>
             </tr>
           )}
         </tbody>
@@ -45,6 +57,20 @@ export class FetchData extends Component {
       <div>
         <h1 id="tabelLabel" >Shop infromation</h1>
             <p>This component demonstrates fetching data from the server.</p> 
+
+            <div className="form-check">
+                <input className="form-check-input" type="radio" name="option1" id="exampleRadios1" onChange={this.handleChange} value="option1" checked={this.state.optionRadio === "option1"}/>
+                <label className="form-check-label" for="exampleRadios1">
+                    Shop 1
+                </label>
+            </div>
+            <div className="form-check">
+                <input className="form-check-input" type="radio" name="option2" id="exampleRadios2" onChange={this.handleChange} value="option2" checked={this.state.optionRadio === "option2"}/>
+                <label className="form-check-label" for="exampleRadios2">
+                        Shop 2
+                    </label>
+        </div>
+
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" onClick={() => this.populateWeatherData(1)}className="btn btn-secondary">Last minute</button>
                     <button type="button" onClick={() => this.populateWeatherData(2)} className="btn btn-secondary">Last hours</button>
@@ -59,13 +85,15 @@ export class FetchData extends Component {
 
     async populateWeatherData(optionValue)
     {
+        console.log(this.state.optionRadio)
         const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ option: optionValue})
+            body: JSON.stringify({ option: optionValue, optionShop: this.state.optionRadio})
     };
     const response = await fetch('weatherforecast/all', requestOptions);
-    const data = await response.json();
+        const data = await response.json();
+        console.log(data);
       this.setState({ shopTraffics: data, loading: false });
   }
 }

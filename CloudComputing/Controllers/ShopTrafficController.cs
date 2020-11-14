@@ -42,11 +42,11 @@ namespace CloudComputing.Web.Controllers
 			return result;
 		}
 
-		[HttpPost("getLastRecords")]
+		[HttpGet("getLastRecords")]
 		public ActionResult<List<ShopTrafficModel>> GetShopTrafficLatestChart()
 		{
 
-			var result = _temperatureService.GetShopTrafficLatestCharts();
+			var result = _temperatureService.GetShopTrafficLatestResult();
 			return result;
 		}
 	}

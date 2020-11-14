@@ -10,6 +10,6 @@ namespace CloudComputing.Services.Interfaces
 	{
 		public List<ShopTrafficModel> GetShopTrafficResult(int periodOfTimeOption, string optionShopValue);
 		public List<ResponseChartModel> GetShopTrafficChartResult(PeriodOfTimeChartModel periodOfTimeChartModel);
-		public List<ShopTrafficModel> GetShopTrafficLatestCharts();
+		public List<ShopTrafficModel> GetShopTrafficLatestResult();
 	}
 }

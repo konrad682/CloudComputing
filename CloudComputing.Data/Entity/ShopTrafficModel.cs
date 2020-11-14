@@ -13,7 +13,6 @@ namespace CloudComputing.Data.Entity
 		public string Id { get; set; }
 		public int shop_id { get; set; }
 		public int sensor_id { get; set; }
-		[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
 		public DateTime date { get; set; }
 		public int people_entered { get; set; }
 		public int people_left { get; set; }

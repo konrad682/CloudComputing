@@ -83,7 +83,7 @@ namespace CloudComputing.Services
 			return responseChart;
 		}
 
-		public List<ShopTrafficModel> GetShopTrafficLatestCharts()
+		public List<ShopTrafficModel> GetShopTrafficLatestResult()
 		{
 			DateTime startDate = DateTime.Now.AddHours(1).AddMinutes(-1);
 			return _shopTraffic.Find(k => k.date > startDate).ToList();

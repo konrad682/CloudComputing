@@ -31,13 +31,13 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "scripts": {
-    "start": "rimraf ./build && react-scripts start",
-    "build": "react-scripts build",
-    "test": "cross-env CI=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
-  },
+    "scripts": {
+        "start": "rimraf ./build && react-scripts start",
+        "build": "CI=false react-scripts build --end=prod",
+        "test": "cross-env CI=true react-scripts test --env=jsdom",
+        "eject": "react-scripts eject",
+        "lint": "eslint ./src/"
+    },
   "browserslist": {
     "production": [
       ">0.2%",

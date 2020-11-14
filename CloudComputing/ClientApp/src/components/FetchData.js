@@ -56,7 +56,7 @@ export class FetchData extends Component {
     return (
       <div>
         <h1 id="tabelLabel" >Shop infromation</h1>
-            <p>This component demonstrates fetching data from the server.</p> 
+            <p>Strona ta zwraca dane zebrane z czujnikow z poszczegolnego okresu czasu</p> 
 
             <div className="form-check">
                 <input className="form-check-input" type="radio" name="option1" id="exampleRadios1" onChange={this.handleChange} value="option1" checked={this.state.optionRadio === "option1"}/>

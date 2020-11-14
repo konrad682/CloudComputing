@@ -29,7 +29,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        CI: true
+        CI: false
         app-name: 'cloudcomputingshoptraffic'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_e70de7165626486ebff5f7ddbe5a6d8f }}

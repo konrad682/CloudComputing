@@ -6,10 +6,7 @@ import {
     YAxis,
     Tooltip,
     Legend,
-    Line,
-    ComposedChart,
-    Area,
-    Bar
+    Line
 } from "recharts";
 
 export class Counter extends Component {
@@ -40,7 +37,7 @@ export class Counter extends Component {
         };
         const response = await fetch('shoptraffic/chart', requestOptions);
         const data = await response.json();
-        this.setState({ ["shopTraffics"]: data });
+        this.setState({ shopTraffics: data });
     }
 
   render() {
